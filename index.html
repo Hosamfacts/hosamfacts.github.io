@@ -1,92 +1,179 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hosam Facts</title>
 
 <style>
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #f5f7fb;
     color: #222;
+    transition: 0.3s;
+}
+
+body.dark {
+    background: #111827;
+    color: #f5f5f5;
 }
 
 header {
-    background: #111827;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
     color: white;
     padding: 25px 15px;
     text-align: center;
 }
 
 header h1 {
-    margin: 0;
-    font-size: 32px;
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 16px;
 }
 
 nav {
-    background: white;
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
 }
 
-nav a {
-    margin: 5px;
-    color: #111827;
-    text-decoration: none;
-    font-weight: bold;
+button {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+nav button {
+    background: white;
+    color: #2563eb;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: auto;
-    padding: 20px;
+    padding: 25px 15px;
+}
+
+.search {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.dark .search {
+    background: #1f2937;
+    color: white;
+    border-color: #374151;
+}
+
+.categories {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.categories button {
+    background: #e5e7eb;
+}
+
+.dark .categories button {
+    background: #374151;
+    color: white;
 }
 
 .hero {
-    background: white;
-    padding: 30px;
-    margin-bottom: 20px;
-    border-radius: 12px;
     text-align: center;
+    padding: 35px 15px;
+}
+
+.hero h2 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #666;
+}
+
+.dark .hero p {
+    color: #bbb;
 }
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 .card {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #ddd;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.dark .card {
+    background: #1f2937;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card h3 {
-    margin-top: 0;
+    margin-bottom: 12px;
+    color: #2563eb;
 }
 
-button {
-    padding: 10px 18px;
-    border: 0;
+.card p {
+    line-height: 1.7;
+}
+
+.tag {
+    display: inline-block;
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 5px 9px;
     border-radius: 8px;
-    cursor: pointer;
-}
-
-.lang {
-    margin-top: 10px;
+    font-size: 12px;
+    margin-bottom: 12px;
 }
 
 footer {
-    margin-top: 40px;
+    text-align: center;
+    margin-top: 50px;
+    padding: 25px;
     background: #111827;
     color: white;
-    text-align: center;
-    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 28px;
+    }
+
+    .hero h2 {
+        font-size: 24px;
+    }
 }
 </style>
 </head>
@@ -94,88 +181,174 @@ footer {
 <body>
 
 <header>
-    <h1>Hosam Facts</h1>
-    <p>حقائق ومعلومات | Facts & Information</p>
-    
-    <div class="lang">
-        <button onclick="arabic()">العربية</button>
-        <button onclick="english()">English</button>
-    </div>
-</header>
+    <h1>🧠 Hosam Facts</h1>
+    <p id="subtitle">اكتشف حقائق مذهلة من حول العالم</p>
 
-<nav>
-    <a href="#">الرئيسية</a>
-    <a href="#">العلوم</a>
-    <a href="#">التاريخ</a>
-    <a href="#">العالم</a>
-    <a href="#">الحيوانات</a>
-</nav>
+    <nav>
+        <button onclick="toggleLanguage()">🇬🇧 English</button>
+        <button onclick="toggleDark()">🌙 الوضع الليلي</button>
+    </nav>
+</header>
 
 <div class="container">
 
-<section class="hero">
-    <h2 id="title">اكتشف شيئًا جديدًا كل يوم 🌍</h2>
-    <p id="intro">
-        مرحبًا بك في Hosam Facts، موقع للحقائق والمعلومات المثيرة من مختلف أنحاء العالم.
-    </p>
-</section>
+    <section class="hero">
+        <h2 id="welcome">مرحبًا بك في Hosam Facts</h2>
+        <p id="description">
+            موقعك لاكتشاف المعلومات والحقائق الغريبة والمذهلة.
+        </p>
+    </section>
 
-<h2 id="latest">أحدث الحقائق</h2>
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="🔎 ابحث عن حقيقة..."
+        onkeyup="searchFacts()"
+    >
 
-<div class="cards">
+    <div class="categories">
+        <button onclick="filterFacts('all')">🌎 الكل</button>
+        <button onclick="filterFacts('science')">🔬 علوم</button>
+        <button onclick="filterFacts('history')">📜 تاريخ</button>
+        <button onclick="filterFacts('space')">🚀 فضاء</button>
+        <button onclick="filterFacts('animals')">🐘 حيوانات</button>
+    </div>
 
-<div class="card">
-    <h3>🧠 حقيقة اليوم</h3>
-    <p>الدماغ البشري يحتوي على مليارات الخلايا العصبية التي تساعدنا على التفكير والتعلم.</p>
-</div>
+    <div class="cards" id="cards">
 
-<div class="card">
-    <h3>🌍 العالم</h3>
-    <p>كوكب الأرض ليس كرة مثالية، بل هو مفلطح قليلًا عند القطبين.</p>
-</div>
+        <div class="card" data-category="science">
+            <span class="tag">🔬 علوم</span>
+            <h3>هل تعلم؟</h3>
+            <p>
+                جسم الإنسان يحتوي على تريليونات من الخلايا التي تعمل معًا
+                للحفاظ على الحياة.
+            </p>
+        </div>
 
-<div class="card">
-    <h3>🔬 العلوم</h3>
-    <p>الضوء القادم من الشمس يحتاج حوالي 8 دقائق و20 ثانية للوصول إلى الأرض.</p>
-</div>
+        <div class="card" data-category="space">
+            <span class="tag">🚀 فضاء</span>
+            <h3>الفضاء صامت</h3>
+            <p>
+                الصوت يحتاج إلى وسط لينتقل، ولذلك لا ينتقل الصوت في الفراغ
+                الموجود في الفضاء.
+            </p>
+        </div>
 
-<div class="card">
-    <h3>🐾 الحيوانات</h3>
-    <p>الفيل يستطيع التواصل باستخدام أصوات منخفضة التردد يمكنها الانتقال لمسافات طويلة.</p>
-</div>
+        <div class="card" data-category="animals">
+            <span class="tag">🐘 حيوانات</span>
+            <h3>الفيل وذاكرته</h3>
+            <p>
+                الأفيال تتمتع بقدرات ذاكرة وتعلّم قوية، ويمكنها تمييز أفراد
+                من مجموعتها بعد فترات طويلة.
+            </p>
+        </div>
 
-</div>
+        <div class="card" data-category="history">
+            <span class="tag">📜 تاريخ</span>
+            <h3>الحضارات القديمة</h3>
+            <p>
+                تركت الحضارات القديمة آثارًا وكتابات ساعدت العلماء على فهم
+                الكثير من تاريخ الإنسان.
+            </p>
+        </div>
+
+        <div class="card" data-category="science">
+            <span class="tag">🔬 علوم</span>
+            <h3>الماء على الأرض</h3>
+            <p>
+                معظم مياه الأرض موجودة في المحيطات، بينما توجد نسبة صغيرة
+                فقط في الأنهار والبحيرات والمياه العذبة.
+            </p>
+        </div>
+
+        <div class="card" data-category="space">
+            <span class="tag">🚀 فضاء</span>
+            <h3>الشمس نجم</h3>
+            <p>
+                الشمس هي نجم يقع في مركز نظامنا الشمسي، وتدور حولها الكواكب.
+            </p>
+        </div>
+
+    </div>
 
 </div>
 
 <footer>
-    © 2026 Hosam Facts
+    <p>© 2026 Hosam Facts — جميع الحقوق محفوظة</p>
 </footer>
 
 <script>
 
-function english() {
-    document.documentElement.lang = "en";
-    document.getElementById("title").innerText =
-        "Discover something new every day 🌍";
-
-    document.getElementById("intro").innerText =
-        "Welcome to Hosam Facts, a website for interesting facts and information from around the world.";
-
-    document.getElementById("latest").innerText =
-        "Latest Facts";
+function toggleDark() {
+    document.body.classList.toggle("dark");
 }
 
-function arabic() {
-    document.documentElement.lang = "ar";
-    document.getElementById("title").innerText =
-        "اكتشف شيئًا جديدًا كل يوم 🌍";
+function searchFacts() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let cards = document.querySelectorAll(".card");
 
-    document.getElementById("intro").innerText =
-        "مرحبًا بك في Hosam Facts، موقع للحقائق والمعلومات المثيرة من مختلف أنحاء العالم.";
+    cards.forEach(card => {
+        let text = card.innerText.toLowerCase();
 
-    document.getElementById("latest").innerText =
-        "أحدث الحقائق";
+        if (text.includes(search)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+function filterFacts(category) {
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        if (category === "all" || card.dataset.category === category) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+function toggleLanguage() {
+
+    let html = document.documentElement;
+
+    if (html.lang === "ar") {
+
+        html.lang = "en";
+        html.dir = "ltr";
+
+        document.getElementById("subtitle").innerText =
+            "Discover amazing facts from around the world";
+
+        document.getElementById("welcome").innerText =
+            "Welcome to Hosam Facts";
+
+        document.getElementById("description").innerText =
+            "Your place to discover amazing and interesting information.";
+
+        document.getElementById("search").placeholder =
+            "🔎 Search for a fact...";
+
+    } else {
+
+        html.lang = "ar";
+        html.dir = "rtl";
+
+        document.getElementById("subtitle").innerText =
+            "اكتشف حقائق مذهلة من حول العالم";
+
+        document.getElementById("welcome").innerText =
+            "مرحبًا بك في Hosam Facts";
+
+        document.getElementById("description").innerText =
+            "موقعك لاكتشاف المعلومات والحقائق الغريبة والمذهلة.";
+
+        document.getElementById("search").placeholder =
+            "🔎 ابحث عن حقيقة...";
+    }
 }
 
 </script>
